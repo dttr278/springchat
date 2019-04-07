@@ -6,7 +6,7 @@ var currentChat, preClick, user;
 const CACHE_MAX_SIZE = 50;
 var listCacheMessage = [];
 var host = location.hostname + (location.port ? ':' + location.port : '');
-var websocket = new WebSocket("ws://" + host + "/tchat");
+var websocket = new WebSocket("wss://" + host + "/tchat");
 var avatarInputfile = document.querySelector('#avatarinput');
 var onlines = [];
 $('#avatarinput').on('change', changeAvatar);
