@@ -224,11 +224,11 @@ function loadMessages(ms) {
 		direction = "sent";
 	}
 	let imageUrl;
-	if (ms.avatarUrl == null) {
-		imageUrl = userImage;
-	} else {
+
+	imageUrl = userImage;
+	if (ms.avatarUrl != null && ImageExist(ms.avatarUrl))
 		imageUrl = ms.avatarUrl;
-	}
+
 	var li = document.createElement('li');
 	li.setAttribute('class', direction);
 	li.setAttribute('id', 'ms-' + ms.messageId);
