@@ -6,7 +6,7 @@ var currentChat, preClick, user;
 const CACHE_MAX_SIZE = 50;
 var listCacheMessage = [];
 var host = location.hostname + (location.port ? ':' + location.port : '');
-var websocket = new WebSocket("ws://" + host + "/tchat");
+var websocket = new WebSocket("wss://" + host + "/tchat");
 var avatarInputfile = document.querySelector('#avatarinput');
 var onlines = [];
 $('#avatarinput').on('change', changeAvatar);
@@ -284,9 +284,14 @@ function chatOnClick(chat, eventSource) {
 	$('#contact-image').attr('src', avatarImage);
 	$(".messages").animate({ scrollTop: 9999 }, "fast");
 }
+function ImageExist(url) {
+	var img = new Image();
+	img.src = url;
+	return img.height != 0;
+}
 function loadContact(c) {
 	let status = "", message = "", name = "";
-	if (c.online!=null&&c.online.length > 0) {
+	if (c.online != null && c.online.length > 0) {
 		status = "online";
 	}
 	if (c.lastMessage != null) {
@@ -298,13 +303,13 @@ function loadContact(c) {
 		name = c.name;
 	}
 	let imageUrl;
-	if (c.avatarUrl == null) {
-		if (c.group) {
-			imageUrl = groupImage;
-		} else {
-			imageUrl = userImage;
-		}
+
+	if (c.group) {
+		imageUrl = groupImage;
 	} else {
+		imageUrl = userImage;
+	}
+	if (c.avatarUrl != null && ImageExist(c.avatarUrl)) {
 		imageUrl = c.avatarUrl;
 	}
 	var li = document.createElement('li');
@@ -349,7 +354,7 @@ function loadProfile() {
 		user = data;
 		// console.log(username);
 		$('#profile-name').text(user.username);
-		$('#profile-img').attr('src', data.avatarurl != null ? data.avatarurl : userImage);
+		$('#profile-img').attr('src', data.avatarurl != null && ImageExist(data.avatarurl) ? data.avatarurl : userImage);
 	});
 }
 $(document).ready(function () {
