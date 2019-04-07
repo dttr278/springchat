@@ -286,7 +286,7 @@ function chatOnClick(chat, eventSource) {
 }
 function ImageExist(url) {
 	var img = new Image();
-	img.src = url;
+	img.src = '.' + url;
 	return img.height != 0;
 }
 function loadContact(c) {
