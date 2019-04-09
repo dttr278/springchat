@@ -1,9 +1,9 @@
 package com.dttr.tchat.entities;
-// Generated Jan 28, 2019 12:43:14 PM by Hibernate Tools 5.2.11.Final
 
 import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+ import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,11 +13,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+ import org.springframework.security.core.GrantedAuthority;
+ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -129,12 +129,12 @@ public class Userinfo implements java.io.Serializable {
 	public void setUserHasMessages(Set<UserHasMessage> userHasMessages) {
 		this.userHasMessages = userHasMessages;
 	}
-	@Transient
-	public List<GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority("MEMBER"));
-		return authorities;
-	}
+	 @Transient
+	 public List<GrantedAuthority> getAuthorities() {
+	 	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+	 	authorities.add(new SimpleGrantedAuthority("MEMBER"));
+	 	return authorities;
+	 }
 
 	/**
 	 * @return the avatarurl
