@@ -6,7 +6,7 @@ var currentChat, preClick, user;
 const CACHE_MAX_SIZE = 50;
 var listCacheMessage = [];
 var host = location.hostname + (location.port ? ':' + location.port : '');
-var websocket = new WebSocket("ws://" + host + "/tchat");
+var websocket = new WebSocket("wss://" + host + "/tchat");
 var avatarInputfile = document.querySelector('#avatarinput');
 var onlines = [];
 $('#avatarinput').on('change', changeAvatar);
@@ -224,11 +224,17 @@ function loadMessages(ms) {
 		direction = "sent";
 	}
 	let imageUrl;
+<<<<<<< HEAD
 
 	imageUrl = userImage;
 	if (ms.avatarUrl != null && ImageExist(ms.avatarUrl))
 		imageUrl = ms.avatarUrl;
 
+=======
+	imageUrl = userImage;
+	if (ms.avatarUrl != null && ImageExist(ms.avatarUrl))
+		imageUrl = ms.avatarUrl;
+>>>>>>> f5fe067ef8e84eccb9dfc28ff0318f123cf97f46
 	var li = document.createElement('li');
 	li.setAttribute('class', direction);
 	li.setAttribute('id', 'ms-' + ms.messageId);
