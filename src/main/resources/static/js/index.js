@@ -2,6 +2,7 @@
 var groupImage = 'https://drive.google.com/uc?id=1Oo7a6dLH_ovIrHSeGjC9YYxKJV-34sLI&export=download';
 var userImage = 'https://drive.google.com/uc?id=1RgNWys8RNj2YDqH9aP1i8l8kd2glthNw&export=download';
 var loadingImage = 'https://drive.google.com/uc?id=1UaHcKmMGxIOBdwKgSb2daWt-Mwv6TwkC&export=download';
+
 var currentChat, preClick, user;
 const CACHE_MAX_SIZE = 50;
 var listCacheMessage = [];
@@ -215,6 +216,15 @@ function cache(ms) {
 	listCacheMessage.push(ms);
 	return true;
 }
+function checkImage(url_image) {
+	var image = new Image();
+	image.src = url_image;
+	if (image.width == 0) {
+		return false;
+	} else {
+		return true;
+	}
+}
 function loadMessages(ms) {
 	var direction;
 	// console.log(ms.sender + '>>' + ms.content);
@@ -225,8 +235,9 @@ function loadMessages(ms) {
 	}
 	let imageUrl;
 	imageUrl = userImage;
-	if (ms.avatarUrl != null && ImageExist(ms.avatarUrl))
+	if (ms.avatarUrl != null && checkImage(ms.avatarUrl))
 		imageUrl = ms.avatarUrl;
+
 	var li = document.createElement('li');
 	li.setAttribute('class', direction);
 	li.setAttribute('id', 'ms-' + ms.messageId);
@@ -274,18 +285,11 @@ function chatOnClick(chat, eventSource) {
 	}
 	$('#contactname')[0].innerText = chat.name;
 	let avatarImage;
-	if (chat.avatarUrl == null) {
-		avatarImage = chat.group ? groupImage : userImage;
-	} else {
+	avatarImage = chat.group ? groupImage : userImage;
+	if (chat.avatarUrl != null && checkImage(chat.avatarUrl))
 		avatarImage = chat.avatarUrl;
-	}
 	$('#contact-image').attr('src', avatarImage);
 	$(".messages").animate({ scrollTop: 9999 }, "fast");
-}
-function ImageExist(url) {
-	var img = new Image();
-	img.src = url;
-	return img.height != 0;
 }
 function loadContact(c) {
 	let status = "", message = "", name = "";
@@ -301,15 +305,9 @@ function loadContact(c) {
 		name = c.name;
 	}
 	let imageUrl;
-
-	if (c.group) {
-		imageUrl = groupImage;
-	} else {
-		imageUrl = userImage;
-	}
-	if (c.avatarUrl != null && ImageExist(c.avatarUrl)) {
+	imageUrl = c.group ? groupImage : userImage;
+	if (c.avatarUrl != null && checkImage(c.avatarUrl))
 		imageUrl = c.avatarUrl;
-	}
 	var li = document.createElement('li');
 	li.setAttribute('class', 'contact');
 	li.setAttribute('id', 'c-' + c.chatId);
@@ -352,7 +350,7 @@ function loadProfile() {
 		user = data;
 		// console.log(username);
 		$('#profile-name').text(user.username);
-		$('#profile-img').attr('src', data.avatarurl != null && ImageExist(data.avatarurl) ? data.avatarurl : userImage);
+		$('#profile-img').attr('src', data.avatarurl != null && checkImage(data.avatarurl) ? data.avatarurl : userImage);
 	});
 }
 $(document).ready(function () {
